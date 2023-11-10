@@ -12,22 +12,21 @@ turtle.shape(image)
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 data = pandas.read_csv("50_color.csv")
-# data = pandas.read_csv("50_states.csv")
-all_states = data.state.to_list()
-guessed_states = []
+all_color = data.color.to_list()
+guessed_colors = []
 
 # Add a new column to your dataframe with the timestamp
 data['timestamp'] = timestamp
 
 
-while len(guessed_states) < 50:
-    answer_state = screen.textinput(title=f"{len(guessed_states)}/50 colors Correct",
+while len(guessed_colors) < 50:
+    answer_color = screen.textinput(title=f"{len(guessed_colors)}/50 colors Correct",
                                     prompt="What's another color?").title()
 
-    if answer_state == "Exit":
+    if answer_color == "Exit":
         missing_color = []
-        for color in all_states:
-            if color not in guessed_states:
+        for color in all_color:
+            if color not in guessed_colors:
                 missing_color.append(color)
         print(missing_color)
         new_data = pandas.DataFrame(missing_color)
@@ -36,14 +35,14 @@ while len(guessed_states) < 50:
         new_data.to_csv(f"{new_file}_{timestamp}.csv")
         break
 
-    if answer_state in all_states:
-        guessed_states.append(answer_state)
+    if answer_color in all_color:
+        guessed_colors.append(answer_color)
         t = turtle.Turtle()
         t.hideturtle()
         t.penup()
-        state_data = data[data.state == answer_state]
-        t.goto(int(state_data.x), int(state_data.y))
-        t.write(answer_state)
-        print(f"NICE! {answer_state} is on the MAP!!!")
+        color_data = data[data.color == answer_color]
+        t.goto(int(color_data.x), int(color_data.y))
+        t.write(answer_color)
+        print(f"NICE! {answer_color} is on the MAP!!!")
 
 screen.exitonclick()
